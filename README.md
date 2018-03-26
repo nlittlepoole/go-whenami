@@ -3,6 +3,7 @@
 [![forthebadge](https://forthebadge.com/images/badges/certified-snoop-lion.svg)](https://forthebadge.com)
 # go-whenami
 [![Go Report Card](https://goreportcard.com/badge/github.com/nlittlepoole/go-whenami)](https://goreportcard.com/report/github.com/nlittlepoole/go-whenami)
+
 `go-whenami` is a package that provides functionality to lookup the timezone of a given coordinate.
 
 ```golang
