@@ -1,16 +1,17 @@
 package main
 
 import (
-    "strconv"
-    "github.com/sirupsen/logrus"
-    "github.com/toorop/gin-logrus"
-    "github.com/gin-gonic/gin"
-    "github.com/nlittlepoole/whenami"
+	"github.com/gin-gonic/gin"
+	"github.com/nlittlepoole/whenami"
+	"github.com/sirupsen/logrus"
+	"github.com/toorop/gin-logrus"
+	"strconv"
 )
 
+// WhenAmI Result has a list of errors and a timezone if one could be computed
 type Result struct {
-	Errors []string `json:"errors"`
-	Timezone string `json:"timezone"`
+	Errors   []string `json:"errors"`
+	Timezone string   `json:"timezone"`
 }
 
 func main() {
@@ -26,26 +27,26 @@ func main() {
 	r.GET("/whenami/", func(c *gin.Context) {
 		var timezone string
 		errors := make([]string, 0)
-		lat, lat_err := strconv.ParseFloat(c.Query("latitude"), 64)
-		if lat_err != nil{
-			log.Warn(lat_err)
-			errors = append(errors, lat_err.Error())
+		lat, latErr := strconv.ParseFloat(c.Query("latitude"), 64)
+		if latErr != nil {
+			log.Warn(latErr)
+			errors = append(errors, latErr.Error())
 		}
-		long, long_err := strconv.ParseFloat(c.Query("longitude"), 64)
-		if long_err != nil{
-			log.Warn(long_err)
-			errors = append(errors, long_err.Error())
+		long, longErr := strconv.ParseFloat(c.Query("longitude"), 64)
+		if longErr != nil {
+			log.Warn(longErr)
+			errors = append(errors, longErr.Error())
 		}
-		if lat_err == nil && long_err == nil {
+		if latErr == nil && longEerr == nil {
 			var err error
 			timezone, err = whenami.WhenAmI(lat, long)
-			if err != nil{
+			if err != nil {
 				log.Warn(err)
 				errors = append(errors, err.Error())
 			}
 		}
 		result := &Result{
-			Errors: errors,
+			Errors:   errors,
 			Timezone: timezone,
 		}
 		if len(errors) > 0 {

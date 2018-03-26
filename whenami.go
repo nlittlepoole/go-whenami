@@ -2,7 +2,7 @@ package whenami
 
 import (
 	"database/sql"
-	_ "github.com/shaxbee/go-spatialite"
+	_ "github.com/shaxbee/go-spatialite" // spatiatite driver
 	"io"
 	"net/http"
 	"os"
@@ -10,6 +10,7 @@ import (
 
 var db *sql.DB
 
+// Spatialite SQL Template
 const TIMEZONE_SQL string = `
 	SELECT tz.tz_name
     FROM timezone AS tz
@@ -43,6 +44,7 @@ func init() {
 	checkErr(err)
 }
 
+// WhenAmI converts latitude, longitude float coordinates to a timezone string
 func WhenAmI(lat float64, lon float64) (string, error) {
 	result := "Unknown"
 	rows, err := db.Query(TIMEZONE_SQL, lon, lon, lat, lat, lon, lat)
