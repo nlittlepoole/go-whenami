@@ -1,11 +1,11 @@
 package whenami
 
-import(
-	"os"
+import (
+	"database/sql"
+	_ "github.com/shaxbee/go-spatialite"
 	"io"
 	"net/http"
-    "database/sql"
-    _ "github.com/shaxbee/go-spatialite"
+	"os"
 )
 
 var db *sql.DB
@@ -21,22 +21,23 @@ const TIMEZONE_SQL string = `
     )
     AND Contains(geometry, MAKEPOINT( ?, ?));`
 
-func checkErr(err error){
-	if err != nil{
+func checkErr(err error) {
+	if err != nil {
 		panic(err)
 	}
 }
 
-func init(){
+func init() {
 	filepath := "tzgeo.sqlite"
 	if _, err := os.Stat(filepath); os.IsNotExist(err) {
 		out, err := os.Create(filepath)
 		defer out.Close()
 		resp, err := http.Get("https://github.com/judy2k/tzgeo/raw/master/tzgeo/tzgeo.sqlite")
+		checkErr(err)
 		defer resp.Body.Close()
 		_, err = io.Copy(out, resp.Body)
 		checkErr(err)
-	} 
+	}
 	var err error
 	db, err = sql.Open("spatialite", filepath)
 	checkErr(err)
@@ -49,10 +50,10 @@ func WhenAmI(lat float64, lon float64) (string, error) {
 		return result, err
 	}
 	for rows.Next() {
-        err := rows.Scan(&result)
+		err := rows.Scan(&result)
 		if err != nil {
 			return result, err
-		}     
-    }
-    return result, nil
+		}
+	}
+	return result, nil
 }
