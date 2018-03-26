@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-// WhenAmI Result has a list of errors and a timezone if one could be computed
+// Result has a list of errors and a timezone if one could be computed
 type Result struct {
 	Errors   []string `json:"errors"`
 	Timezone string   `json:"timezone"`

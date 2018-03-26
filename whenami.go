@@ -10,7 +10,7 @@ import (
 
 var db *sql.DB
 
-// Spatialite SQL Template
+// TIMEZONE_SQL is a Spatialite SQL Template
 const TIMEZONE_SQL string = `
 	SELECT tz.tz_name
     FROM timezone AS tz
